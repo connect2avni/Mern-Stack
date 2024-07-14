@@ -4,6 +4,11 @@ const router= require("./router/auth-router");
 
 app.use("/api/auth",router);
 
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 
 
 // app.get('/', function (req, res) {
@@ -13,12 +18,6 @@ app.use("/api/auth",router);
 // app.get("/register",(req,res)=>{
 //   res.status(200).send("Welcome to register");
 // });
-
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 
 
 //app.listen(3000)
