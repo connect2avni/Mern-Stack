@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -25,7 +27,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Pre-save hook to hash password
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
     const user = this;
 
     if (!user.isModified("password")) {
@@ -41,6 +43,28 @@ userSchema.pre("save", async function(next) {
         next(error);
     }
 });
+
+userSchema.methods.generateToken = async function () {
+    
+    try {
+        const token = jwt.sign(
+            {
+                userId: this._id.toString(),
+                email: this.email,
+                isAdmin: this.isAdmin,
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: "365d",
+            }
+        );
+        console.log(token);
+        return token;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
