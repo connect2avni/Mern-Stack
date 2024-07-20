@@ -52,4 +52,6 @@ const login = async (req, res) => {
     }
 }
 
+const user= await userExist.comparePassword(password);
+
 module.exports = { home, register, login };
