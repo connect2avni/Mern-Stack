@@ -1,4 +1,4 @@
-const User = require('../../models/user-model');
+const User = require('../models/user-model');
 const bcrypt = require('bcrypt');
 
 const home = async (req, res) => {
@@ -48,7 +48,9 @@ const login = async (req, res) => {
             token: await user.generateToken()
         });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+
+        next(error);
     }
 }
 
